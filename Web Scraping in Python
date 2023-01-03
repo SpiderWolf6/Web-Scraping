@@ -1,0 +1,48 @@
+import pandas as pd
+from bs4 import BeautifulSoup
+import json
+from urllib.request import urlopen
+
+scrape_url = "link" # set the variable = to url link
+page_connect = urlopen(scrape_url)
+page_html = BeautifulSoup(page_connect, "html.parser")
+page_html
+
+page_html.findAll(name="script")[1] # search through 1, 2, 3, ... until you find desired code section
+json_raw_string = page_html.findAll(name="script")[1].text
+
+# filter through raw string using index
+start_ind = json_raw_string.index("\\")
+stop_ind = json_raw_string.index("")
+json_data = json_raw_string[start_ind:stop_ind]
+
+# string to json
+json_data = json_data.encode("utf8").decode("unicode_escape")
+
+# json to DataFrame
+final_json_df = pd.json_normalize(json.loads(json_data))
+final_json_df
+
+
+# EXAMPLE CODE BELOW:
+import pandas as pd
+from bs4 import BeautifulSoup
+import json
+from urllib.request import urlopen
+
+scrape_url = "https://understat.com/league/EPL" 
+page_connect = urlopen(scrape_url)
+page_html = BeautifulSoup(page_connect, "html.parser")
+page_html
+
+page_html.findAll(name="script")[3]
+json_raw_string = page_html.findAll(name="script")[3].text
+
+start_ind = json_raw_string.index("\\")
+stop_ind = json_raw_string.index("")
+json_data = json_raw_string[start_ind:stop_ind]
+
+json_data = json_data.encode("utf8").decode("unicode_escape")
+
+final_json_df = pd.json_normalize(json.loads(json_data))
+final_json_df
