@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 import json
 from urllib.request import urlopen
 
-scrape_url = "link" # set the variable = to url link
+scrape_url = "link" # set the variable equal to url link
 page_connect = urlopen(scrape_url)
 page_html = BeautifulSoup(page_connect, "html.parser")
 page_html
